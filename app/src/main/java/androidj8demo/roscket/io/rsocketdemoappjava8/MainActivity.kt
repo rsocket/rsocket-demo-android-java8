@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         val onePerSec = trumpTweets.window(ofSeconds(1L)).flatMap { it.take(1L) }
         subscription = onePerSec.subscribeOn(Schedulers.elastic()).subscribe(
                 { mUiHandler.post({ label.text = it.dataUtf8 }) },
-                { Log.w("MainActivity", "failed", it) });
+                { Log.w("MainActivity", "failed", it) })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
