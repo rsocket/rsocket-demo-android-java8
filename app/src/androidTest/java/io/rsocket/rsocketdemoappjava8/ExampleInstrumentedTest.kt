@@ -1,4 +1,4 @@
-package androidj8demo.roscket.io.rsocketdemoappjava8
+package io.rsocket.rsocketdemoappjava8
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("androidj8demo.roscket.io.rsocketdemoappjava8", appContext.packageName)
+        assertEquals("io.rsocket.rsocketdemoappjava8", appContext.packageName)
     }
 }

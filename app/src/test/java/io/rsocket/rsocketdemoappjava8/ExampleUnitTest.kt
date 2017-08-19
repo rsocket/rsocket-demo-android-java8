@@ -1,4 +1,4 @@
-package androidj8demo.roscket.io.rsocketdemoappjava8
+package io.rsocket.rsocketdemoappjava8
 
 import org.junit.Test
 
