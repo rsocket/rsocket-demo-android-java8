@@ -21,6 +21,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'http://repo.spring.io/milestone' }
+        maven { url 'https://oss.jfrog.org/libs-snapshot' }
     }
 }
 
