@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -17,10 +18,10 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenLocal()
         google()
         jcenter()
         maven { url 'http://repo.spring.io/milestone' }
+        maven { url 'https://oss.jfrog.org/artifactory/jfrog-dependencies' }
     }
 }
 

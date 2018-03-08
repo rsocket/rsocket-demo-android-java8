@@ -7,15 +7,14 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import io.rsocket.RSocketFactory
-import io.rsocket.transport.netty.client.WebsocketClientTransport
-import io.rsocket.util.DefaultPayload
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
+import io.rsocket.android.RSocketFactory
+import io.rsocket.android.util.PayloadImpl
+import io.rsocket.transport.okhttp.client.OkhttpWebsocketClientTransport
 import kotlinx.android.synthetic.main.activity_main.toolbar
 import kotlinx.android.synthetic.main.content_main.label
-import reactor.core.Disposable
-import reactor.core.scheduler.Schedulers
-import java.net.URI
-import java.time.Duration.ofSeconds
+import okhttp3.HttpUrl
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,12 +27,13 @@ class MainActivity : AppCompatActivity() {
 
     val mUiHandler = object : Handler(Looper.getMainLooper()) {}
 
-    val ws = WebsocketClientTransport.create(URI.create("ws://rsocket-demo.herokuapp.com/ws"));
-    val client = RSocketFactory.connect().keepAlive().transport(ws).start()
+    val client = RSocketFactory.connect().transport {
+      OkhttpWebsocketClientTransport.create(
+          HttpUrl.parse("https://rsocket-demo.herokuapp.com/ws")!!)
+    }.start().blockingGet()
 
-    val trumpTweets = client.flatMapMany { it.requestStream(DefaultPayload.create("trump")) }
-    val onePerSec = trumpTweets.window(ofSeconds(1L)).flatMap { it.take(1L) }
-    subscription = onePerSec.subscribeOn(Schedulers.elastic()).subscribe(
+    val trumpTweets = client.requestStream(PayloadImpl.textPayload("trump"))
+    subscription = trumpTweets.subscribeOn(Schedulers.io()).subscribe(
         { mUiHandler.post({ label.text = it.dataUtf8 }) },
         { Log.w("MainActivity", "failed", it) })
   }
