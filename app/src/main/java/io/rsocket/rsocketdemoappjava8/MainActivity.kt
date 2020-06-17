@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import io.rsocket.RSocketFactory
+import io.rsocket.RSocket
+import io.rsocket.core.RSocketConnector
 import io.rsocket.transport.netty.client.WebsocketClientTransport
 import io.rsocket.util.DefaultPayload
 import kotlinx.android.synthetic.main.activity_main.toolbar
@@ -28,11 +29,12 @@ class MainActivity : AppCompatActivity() {
 
     val mUiHandler = object : Handler(Looper.getMainLooper()) {}
 
-    val ws = WebsocketClientTransport.create(URI.create("ws://rsocket-demo.herokuapp.com/ws"));
-    val client = RSocketFactory.connect().keepAlive().transport(ws).start()
+    val ws: WebsocketClientTransport =
+      WebsocketClientTransport.create(URI.create("wss://rsocket-demo.herokuapp.com/ws"))
+    val clientRSocket: RSocket = RSocketConnector.connectWith(ws).block()!!
 
-    val trumpTweets = client.flatMapMany { it.requestStream(DefaultPayload.create("trump")) }
-    val onePerSec = trumpTweets.window(ofSeconds(1L)).flatMap { it.take(1L) }
+    val blmTweets = clientRSocket.requestStream(DefaultPayload.create("#blm"))
+    val onePerSec = blmTweets.window(ofSeconds(1L)).flatMap { it.take(1L) }
     subscription = onePerSec.subscribeOn(Schedulers.elastic()).subscribe(
         { mUiHandler.post({ label.text = it.dataUtf8 }) },
         { Log.w("MainActivity", "failed", it) })
