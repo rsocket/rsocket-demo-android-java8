@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "io.rsocket.rsocketdemoappjava8"
-        minSdkVersion 26
-        targetSdkVersion 27
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,20 +26,23 @@ android {
         exclude "META-INF/io.netty.versions.properties"
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.4'
+    implementation "com.android.support:appcompat-v7:28.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:27.1.0'
-    implementation 'io.rsocket:rsocket-core:0.10.3'
-    implementation 'io.rsocket:rsocket-transport-netty:0.10.3'
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+    implementation 'io.rsocket:rsocket-core:1.0.1'
+    implementation 'io.rsocket:rsocket-transport-netty:1.0.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
