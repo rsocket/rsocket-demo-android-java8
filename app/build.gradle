@@ -43,6 +43,9 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'io.rsocket:rsocket-core:1.0.1'
     implementation 'io.rsocket:rsocket-transport-netty:1.0.1'
+    implementation("com.squareup.moshi:moshi:1.8.0")
+    implementation("com.squareup.moshi:moshi-adapters:1.8.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
