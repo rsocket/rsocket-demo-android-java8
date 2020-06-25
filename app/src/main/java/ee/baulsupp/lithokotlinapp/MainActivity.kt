@@ -11,13 +11,11 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
-import reactor.core.Disposable
 import kotlin.time.ExperimentalTime
 import kotlin.time.seconds
 
 @FlowPreview
 class MainActivity : AppCompatActivity() {
-    private var subscription: Disposable? = null
     private lateinit var lithoView: LithoView
 
     @ExperimentalTime
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.Default) {
             val clientRSocket = connection()
 
-            val tweetQuery = clientRSocket.queryTweets("photo").sample(2.seconds)
+            val tweetQuery = clientRSocket.queryTweets("liverpool").sample(2.seconds)
 
             tweetQuery.collect {
                 lithoView.setComponent(TweetPanel.create(c).tweet(it).build())
