@@ -29,16 +29,21 @@ object TweetPanelSpec {
             .paddingDip(YogaEdge.ALL, 16f)
             .backgroundColor(Color.WHITE)
             .child(
-                Row.create(c).child(
-                    GlideImage.create(c)
-                        .imageUrl(tweet.profilePic)
-                        .widthPx(73)
-                        .heightPx(73)
-                ).child(
-                    Text.create(c)
-                        .text(screenName)
-                        .textSizeSp(30f)
-                )
+                Row.create(c).apply({
+                    if (tweet.profilePic != null) {
+                        child(
+                            GlideImage.create(c)
+                                .imageUrl(tweet.profilePic)
+                                .widthPx(73)
+                                .heightPx(73)
+                        )
+                    }
+                })
+                    .child(
+                        Text.create(c)
+                            .text(screenName)
+                            .textSizeSp(30f)
+                    )
             )
             .child(
                 Text.create(c)
@@ -51,27 +56,29 @@ object TweetPanelSpec {
                     .textSizeSp(20f)
             )
             .apply {
-                tweet.entities?.media?.forEach {media ->
-                    media.sizes?.small?.let {size ->
-                        child(GlideImage.create(c)
-                            .imageUrl(media.media_url_https + "?format=jpg&name=small")
-                            .widthPx(size.w)
-                            .heightPx(size.h))
+                tweet.entities?.media?.forEach { media ->
+                    media.sizes?.small?.let { size ->
+                        child(
+                            GlideImage.create(c)
+                                .imageUrl(media.media_url_https + "?format=jpg&name=small")
+                                .widthPx(size.w)
+                                .heightPx(size.h)
+                        )
                     }
                 }
             }
             .build()
     }
+}
 
-    private fun clickableScreenName(tweet: Tweet): SpannableString {
-        val handle = "@" + tweet.user?.screen_name
-        val screenName = SpannableString(handle)
-        screenName.setSpan(
-            URLSpan("https://twitter.com/" + tweet.user?.screen_name),
-            0,
-            handle.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        return screenName
-    }
+private fun clickableScreenName(tweet: Tweet): SpannableString {
+    val handle = "@" + tweet.user?.screen_name
+    val screenName = SpannableString(handle)
+    screenName.setSpan(
+        URLSpan("https://twitter.com/" + tweet.user?.screen_name),
+        0,
+        handle.length,
+        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+    )
+    return screenName
 }
