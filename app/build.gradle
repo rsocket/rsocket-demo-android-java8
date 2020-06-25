@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
+
+    defaultConfig {
+        applicationId "ee.baulsupp.lithokotlinapp"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.3.7"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.github.pavlospt:litho-glide:1.6'
+
+    debugImplementation 'com.facebook.flipper:flipper:0.48.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.48.0'
+    debugImplementation 'com.facebook.flipper:flipper-litho-plugin:0.48.0'
+    debugImplementation 'com.facebook.litho:litho-annotations:0.19.0'
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.48.0'
+
+    // Litho
+    implementation 'com.facebook.litho:litho-core:0.36.0'
+    implementation 'com.facebook.litho:litho-widget:0.36.0'
+
+    kapt 'com.facebook.litho:litho-processor:0.36.0'
+
+    // SoLoader
+    implementation 'com.facebook.soloader:soloader:0.9.0'
+
+    // For integration with Fresco
+    implementation 'com.facebook.litho:litho-fresco:0.36.0'
+
+    // For testing
+    testImplementation 'com.facebook.litho:litho-testing:0.36.0'
+
+    // Sections
+    implementation 'com.facebook.litho:litho-sections-core:0.36.0'
+    implementation 'com.facebook.litho:litho-sections-widget:0.36.0'
+    compileOnly 'com.facebook.litho:litho-sections-annotations:0.36.0'
+
+    kapt 'com.facebook.litho:litho-sections-processor:0.36.0'
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.4'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation 'io.rsocket:rsocket-core:1.0.1'
+    implementation 'io.rsocket:rsocket-transport-netty:1.0.1'
+    implementation("com.squareup.moshi:moshi:1.8.0")
+    implementation("com.squareup.moshi:moshi-adapters:1.8.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
+}
